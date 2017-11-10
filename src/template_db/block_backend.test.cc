@@ -247,8 +247,8 @@ void fill_db
   catch (File_Error& e)
   {
     std::cout<<"File error catched in part "<<step<<": "
-    <<e.error_number<<' '<<e.filename<<' '<<e.origin<<'\n';
-    std::cout<<"(This is unexpected)\n";
+    <<e.error_number<<' '<<e.filename<<' '<<e.origin<< std::endl;
+    std::cout<<"(This is unexpected)" << std::endl;
 
     throw;
   }
@@ -260,7 +260,7 @@ void read_loop
 {
   if (it == blocks.flat_end())
   {
-    std::cout<<"[empty]\n";
+    std::cout<<"[empty]" << std::endl;
     return;
   }
   IntIndex current_idx(it.index());
@@ -284,7 +284,7 @@ void read_loop
 {
   if (it == blocks.discrete_end())
   {
-    std::cout<<"[empty]\n";
+    std::cout<<"[empty]" << std::endl;
     return;
   }
   IntIndex current_idx(it.index());
@@ -308,7 +308,7 @@ void read_loop
 {
   if (it == blocks.range_end())
   {
-    std::cout<<"[empty]\n";
+    std::cout<<"[empty]" << std::endl;
     return;
   }
   IntIndex current_idx(it.index());
@@ -335,78 +335,78 @@ void read_test(unsigned int step)
     Block_Backend< IntIndex, IntObject >
 	db_backend(transaction.data_index(&tf));
 
-    std::cout<<"Read test\n";
+    std::cout<<"Read test" << std::endl;
 
-    std::cout<<"Reading all blocks ...\n";
+    std::cout<<"Reading all blocks ..." << std::endl;
     Block_Backend< IntIndex, IntObject >::Flat_Iterator fit(db_backend.flat_begin());
     read_loop(db_backend, fit);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     std::set< IntIndex > index_list;
     for (unsigned int i(0); i < 100; i += 9)
       index_list.insert(&i);
-    std::cout<<"Reading blocks with indices {0, 9, ..., 99} ...\n";
+    std::cout<<"Reading blocks with indices {0, 9, ..., 99} ..." << std::endl;
     Block_Backend< IntIndex, IntObject >::Discrete_Iterator
 	it(db_backend.discrete_begin(index_list.begin(), index_list.end()));
     read_loop(db_backend, it);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     index_list.clear();
     for (unsigned int i(0); i < 10; ++i)
       index_list.insert(&i);
-    std::cout<<"Reading blocks with indices {0, 1, ..., 9} ...\n";
+    std::cout<<"Reading blocks with indices {0, 1, ..., 9} ..." << std::endl;
     it = db_backend.discrete_begin(index_list.begin(), index_list.end());
     read_loop(db_backend, it);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     std::set< std::pair< IntIndex, IntIndex > > range_list;
     uint32 fool(0), foou(10);
     range_list.insert(std::make_pair(IntIndex(&fool), IntIndex(&foou)));
-    std::cout<<"Reading blocks with indices [0, 10[ ...\n";
+    std::cout<<"Reading blocks with indices [0, 10[ ..." << std::endl;
     Block_Backend< IntIndex, IntObject >::Range_Iterator
 	rit(db_backend.range_begin
 	(Default_Range_Iterator< IntIndex >(range_list.begin()),
 	 Default_Range_Iterator< IntIndex >(range_list.end())));
     read_loop(db_backend, rit);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     index_list.clear();
     for (unsigned int i(90); i < 100; ++i)
       index_list.insert(&i);
-    std::cout<<"Reading blocks with indices {90, 91, ..., 99} ...\n";
+    std::cout<<"Reading blocks with indices {90, 91, ..., 99} ..." << std::endl;
     it = db_backend.discrete_begin(index_list.begin(), index_list.end());
     read_loop(db_backend, it);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     range_list.clear();
     fool = 90;
     foou = 100;
     range_list.insert(std::make_pair(IntIndex(&fool), IntIndex(&foou)));
-    std::cout<<"Reading blocks with indices [90, 100[ ...\n";
+    std::cout<<"Reading blocks with indices [90, 100[ ..." << std::endl;
     rit = db_backend.range_begin
 	(Default_Range_Iterator< IntIndex >(range_list.begin()),
 	 Default_Range_Iterator< IntIndex >(range_list.end()));
     read_loop(db_backend, rit);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     index_list.clear();
     uint32 foo(50);
     index_list.insert(&foo);
-    std::cout<<"Reading blocks with index 50 ...\n";
+    std::cout<<"Reading blocks with index 50 ..." << std::endl;
     it = db_backend.discrete_begin(index_list.begin(), index_list.end());
     read_loop(db_backend, it);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     range_list.clear();
     fool = 50;
     foou = 51;
     range_list.insert(std::make_pair(IntIndex(&fool), IntIndex(&foou)));
-    std::cout<<"Reading blocks with indices [50, 51[ ...\n";
+    std::cout<<"Reading blocks with indices [50, 51[ ..." << std::endl;
     rit = db_backend.range_begin
 	(Default_Range_Iterator< IntIndex >(range_list.begin()),
 	 Default_Range_Iterator< IntIndex >(range_list.end()));
     read_loop(db_backend, rit);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     range_list.clear();
     fool = 0;
@@ -418,26 +418,26 @@ void read_test(unsigned int step)
     fool = 90;
     foou = 100;
     range_list.insert(std::make_pair(IntIndex(&fool), IntIndex(&foou)));
-    std::cout<<"Reading blocks with indices [0,10[\\cup [50, 51[\\cup [90, 100[ ...\n";
+    std::cout<<"Reading blocks with indices [0,10[\\cup [50, 51[\\cup [90, 100[ ..." << std::endl;
     rit = db_backend.range_begin
 	(Default_Range_Iterator< IntIndex >(range_list.begin()),
 	 Default_Range_Iterator< IntIndex >(range_list.end()));
     read_loop(db_backend, rit);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
     index_list.clear();
-    std::cout<<"Reading blocks with indices \\emptyset ...\n";
+    std::cout<<"Reading blocks with indices \\emptyset ..." << std::endl;
     it = db_backend.discrete_begin(index_list.begin(), index_list.end());
     read_loop(db_backend, it);
-    std::cout<<"... all blocks read.\n";
+    std::cout<<"... all blocks read." << std::endl;
 
-    std::cout<<"This block of read tests is complete.\n";
+    std::cout<<"This block of read tests is complete." << std::endl;
   }
   catch (File_Error& e)
   {
     std::cout<<"File error catched in part "<<step<<": "
-    <<e.error_number<<' '<<e.filename<<' '<<e.origin<<'\n';
-    std::cout<<"(This is unexpected)\n";
+    <<e.error_number<<' '<<e.filename<<' '<<e.origin<< std::endl;
+    std::cout<<"(This is unexpected)" << std::endl;
 
     throw;
   }
@@ -450,7 +450,7 @@ int main(int argc, char* args[])
     test_to_execute = args[1];
 
   if ((test_to_execute == "") || (test_to_execute == "1"))
-    std::cout<<"** Test the behaviour for non-exsiting files\n";
+    std::cout<<"** Test the behaviour for non-exsiting files" << std::endl;
   remove((BASE_DIRECTORY + Test_File().get_file_name_trunk()
       + Test_File().get_index_suffix()).c_str());
   remove((BASE_DIRECTORY + Test_File().get_file_name_trunk()
@@ -465,8 +465,8 @@ int main(int argc, char* args[])
   catch (File_Error e)
   {
     std::cout<<"File error catched in part 1: "
-    <<e.error_number<<' '<<e.filename<<' '<<e.origin<<'\n';
-    std::cout<<"(This is the expected correct behaviour)\n";
+    <<e.error_number<<' '<<e.filename<<' '<<e.origin<< std::endl;
+    std::cout<<"(This is the expected correct behaviour)" << std::endl;
   }
 
   std::map< IntIndex, std::set< IntObject > > to_delete;
@@ -474,13 +474,13 @@ int main(int argc, char* args[])
   std::set< IntObject > objects;
 
   if ((test_to_execute == "") || (test_to_execute == "2"))
-    std::cout<<"** Test the behaviour for an empty db\n";
+    std::cout<<"** Test the behaviour for an empty db" << std::endl;
   fill_db(to_delete, to_insert, 2);
   if ((test_to_execute == "") || (test_to_execute == "2"))
     read_test(2);
 
   if ((test_to_execute == "") || (test_to_execute == "3"))
-    std::cout<<"** Test the behaviour for a db with one entry\n";
+    std::cout<<"** Test the behaviour for a db with one entry" << std::endl;
   to_delete.clear();
   to_insert.clear();
   objects.clear();
@@ -492,7 +492,7 @@ int main(int argc, char* args[])
     read_test(3);
 
   if ((test_to_execute == "") || (test_to_execute == "4"))
-    std::cout<<"** Test the behaviour for a db with multiple short indizes\n";
+    std::cout<<"** Test the behaviour for a db with multiple short indizes" << std::endl;
   to_delete.clear();
   to_insert.clear();
   for (unsigned int i(0); i < 100; i += 9)
@@ -507,7 +507,7 @@ int main(int argc, char* args[])
     read_test(4);
 
   if ((test_to_execute == "") || (test_to_execute == "5"))
-    std::cout<<"** Delete an item\n";
+    std::cout<<"** Delete an item" << std::endl;
   to_delete.clear();
   to_insert.clear();
   objects.clear();
@@ -519,7 +519,7 @@ int main(int argc, char* args[])
     read_test(5);
 
   if ((test_to_execute == "") || (test_to_execute == "6"))
-    std::cout<<"** Add some empty indices (should not appear)\n";
+    std::cout<<"** Add some empty indices (should not appear)" << std::endl;
   to_delete.clear();
   to_insert.clear();
   for (unsigned int i(0); i < 99; i += 9)
@@ -533,7 +533,7 @@ int main(int argc, char* args[])
     read_test(6);
 
   if ((test_to_execute == "") || (test_to_execute == "7"))
-    std::cout<<"** Add much more items\n";
+    std::cout<<"** Add much more items" << std::endl;
   to_delete.clear();
   to_insert.clear();
   for (unsigned int i(0); i < 100; ++i)
@@ -549,7 +549,7 @@ int main(int argc, char* args[])
     read_test(7);
 
   if ((test_to_execute == "") || (test_to_execute == "8"))
-    std::cout<<"** Blow up a single index\n";
+    std::cout<<"** Blow up a single index" << std::endl;
   to_delete.clear();
   to_insert.clear();
   objects.clear();
@@ -562,7 +562,7 @@ int main(int argc, char* args[])
     read_test(8);
 
   if ((test_to_execute == "") || (test_to_execute == "9"))
-    std::cout<<"** Blow up an index and delete some data\n";
+    std::cout<<"** Blow up an index and delete some data" << std::endl;
   to_delete.clear();
   to_insert.clear();
   objects.clear();
@@ -579,7 +579,7 @@ int main(int argc, char* args[])
     read_test(9);
 
   if ((test_to_execute == "") || (test_to_execute == "10"))
-    std::cout<<"** Blow up further the same index\n";
+    std::cout<<"** Blow up further the same index" << std::endl;
   to_delete.clear();
   to_insert.clear();
   objects.clear();
@@ -592,7 +592,7 @@ int main(int argc, char* args[])
     read_test(10);
 
   if ((test_to_execute == "") || (test_to_execute == "11"))
-    std::cout<<"** Blow up two indices\n";
+    std::cout<<"** Blow up two indices" << std::endl;
   to_delete.clear();
   to_insert.clear();
   objects.clear();
@@ -609,7 +609,7 @@ int main(int argc, char* args[])
     read_test(11);
 
   if ((test_to_execute == "") || (test_to_execute == "12"))
-    std::cout<<"** Delete an entire block\n";
+    std::cout<<"** Delete an entire block" << std::endl;
   to_delete.clear();
   to_insert.clear();
   for (unsigned int i(55); i < 95; ++i)
@@ -627,7 +627,7 @@ int main(int argc, char* args[])
     read_test(12);
 
   if ((test_to_execute == "") || (test_to_execute == "13"))
-    std::cout<<"** Delete many items\n";
+    std::cout<<"** Delete many items" << std::endl;
   to_delete.clear();
   to_insert.clear();
   for (unsigned int i(0); i < 100; ++i)
