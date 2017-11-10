@@ -136,7 +136,7 @@ int Global_Resource_Planner::probe(pid_t pid, uint32 client_token, uint32 time_u
     for (std::vector< Reader_Entry >::const_iterator it = active.begin(); it != active.end(); ++it)
     {
       if (it->client_token == client_token)
-	++token_count;
+	    ++token_count;
     }
     if (token_count >= rate_limit)
     {
@@ -461,7 +461,7 @@ void Dispatcher::write_start(pid_t pid)
       if (locked_pid == pid)
 	return;
     }
-    std::cerr<<"File_Error "<<e.error_number<<' '<<strerror(e.error_number)<<' '<<e.filename<<' '<<e.origin<<'\n';
+    std::cerr<<"File_Error "<<e.error_number<<' '<<strerror(e.error_number)<<' '<<e.filename<<' '<<e.origin<< std::endl;
     return;
   }
 
@@ -502,7 +502,7 @@ void Dispatcher::write_commit(pid_t pid)
   }
   catch (File_Error e)
   {
-    std::cerr<<"File_Error "<<e.error_number<<' '<<strerror(e.error_number)<<' '<<e.filename<<' '<<e.origin<<'\n';
+    std::cerr<<"File_Error "<<e.error_number<<' '<<strerror(e.error_number)<<' '<<e.filename<<' '<<e.origin<< std::endl;
     return;
   }
   
@@ -759,7 +759,7 @@ void Dispatcher::standby_loop(uint64 milliseconds)
     }
     catch (File_Error e)
     {
-      std::cerr<<"File_Error "<<e.error_number<<' '<<strerror(e.error_number)<<' '<<e.filename<<' '<<e.origin<<'\n';
+      std::cerr<<"File_Error "<<e.error_number<<' '<<strerror(e.error_number)<<' '<<e.filename<<' '<<e.origin<< std::endl;
       
       counter += 30;
       millisleep(3000);
@@ -777,17 +777,17 @@ void Dispatcher::output_status()
   {
     std::ofstream status((shadow_name + ".status").c_str());
     
-    status<<"Number of not yet opened connections: "<<socket.num_started_connections()<<'\n'
-        <<"Number of connected clients: "<<connection_per_pid.base_map().size()<<'\n'
-        <<"Rate limit: "<<global_resource_planner.get_rate_limit()<<'\n'
-        <<"Total available space: "<<global_resource_planner.get_total_available_space()<<'\n'
-        <<"Total claimed space: "<<global_resource_planner.get_total_claimed_space()<<'\n'
-        <<"Average claimed space: "<<global_resource_planner.get_average_claimed_space()<<'\n'
-        <<"Total available time units: "<<global_resource_planner.get_total_available_time()<<'\n'
-        <<"Total claimed time units: "<<global_resource_planner.get_total_claimed_time()<<'\n'
-        <<"Average claimed time units: "<<global_resource_planner.get_average_claimed_time()<<'\n'
-        <<"Counter of started requests: "<<requests_started_counter<<'\n'
-        <<"Counter of finished requests: "<<requests_finished_counter<<'\n';
+    status<<"Number of not yet opened connections: "<<socket.num_started_connections()<<std::endl
+        <<"Number of connected clients: "<<connection_per_pid.base_map().size()<<std::endl
+        <<"Rate limit: "<<global_resource_planner.get_rate_limit()<<std::endl
+        <<"Total available space: "<<global_resource_planner.get_total_available_space()<<std::endl
+        <<"Total claimed space: "<<global_resource_planner.get_total_claimed_space()<<std::endl
+        <<"Average claimed space: "<<global_resource_planner.get_average_claimed_space()<<std::endl
+        <<"Total available time units: "<<global_resource_planner.get_total_available_time()<<std::endl
+        <<"Total claimed time units: "<<global_resource_planner.get_total_claimed_time()<<std::endl
+        <<"Average claimed time units: "<<global_resource_planner.get_average_claimed_time()<<std::endl
+        <<"Counter of started requests: "<<requests_started_counter<<std::endl
+        <<"Counter of finished requests: "<<requests_finished_counter<<std::endl;
 
     std::set< ::pid_t > collected_pids = transaction_insulator.registered_pids();
     
@@ -799,7 +799,7 @@ void Dispatcher::output_status()
       else
 	status<<READ_IDX_FINISHED;
       status<<' '<<it->client_pid<<' '<<it->client_token<<' '
-          <<it->max_space<<' '<<it->max_time<<' '<<it->start_time<<'\n';
+          <<it->max_space<<' '<<it->max_time<<' '<<it->start_time<<std::endl;
         
       collected_pids.insert(it->client_pid);
     }
@@ -809,13 +809,13 @@ void Dispatcher::output_status()
     {
       if (processes_reading_idx.find(it->first) == processes_reading_idx.end()
 	  && collected_pids.find(it->first) == collected_pids.end())
-	status<<"pending\t"<<it->first<<'\n';
+	status<<"pending\t"<<it->first<<std::endl;
     }
     
     for (std::vector< Quota_Entry >::const_iterator it = global_resource_planner.get_afterwards().begin();
 	 it != global_resource_planner.get_afterwards().end(); ++it)
     {
-      status<<"quota\t"<<it->client_token<<' '<<it->expiration_time<<'\n';
+      status<<"quota\t"<<it->client_token<<' '<<it->expiration_time<<std::endl;
     }
   }
   catch (...) {}
