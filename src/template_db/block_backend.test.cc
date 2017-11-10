@@ -270,12 +270,12 @@ void read_loop
     if (!(current_idx == it.index()))
     {
       current_idx = it.index();
-      std::cout<<"\nIndex "<<current_idx.val()<<": ";
+      std::cout<<std::endl<<"Index "<<current_idx.val()<<": ";
     }
     std::cout<<it.object().val()<<' ';
     ++it;
   }
-  std::cout<<'\n';
+  std::cout<<std::endl;
 }
 
 void read_loop
@@ -294,12 +294,12 @@ void read_loop
     if (!(current_idx == it.index()))
     {
       current_idx = it.index();
-      std::cout<<"\nIndex "<<current_idx.val()<<": ";
+      std::cout<<std::endl<<"Index "<<current_idx.val()<<": ";
     }
     std::cout<<it.object().val()<<' ';
     ++it;
   }
-  std::cout<<'\n';
+  std::cout<<std::endl;
 }
 
 void read_loop
@@ -318,12 +318,12 @@ void read_loop
     if (!(current_idx == it.index()))
     {
       current_idx = it.index();
-      std::cout<<"\nIndex "<<current_idx.val()<<": ";
+      std::cout<<std::endl<<"Index "<<current_idx.val()<<": ";
     }
     std::cout<<it.object().val()<<' ';
     ++it;
   }
-  std::cout<<'\n';
+  std::cout<<std::endl;
 }
 
 void read_test(unsigned int step)
